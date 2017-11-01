@@ -1,0 +1,29 @@
+#include<complex>
+#include<iostream>
+using namespace std;
+
+extern "C" {  // use name without _
+int func(complex<double> &c,int maxNumIt,bool &conv)
+{
+  complex<double> z(c),h,i(0,1);
+  double ln,n=0.0,dn1,dn2;
+  int a;
+
+  ln=0.0;dn1=dn2=1e99;
+  for(a=0;a<maxNumIt;a++){ // Line for eqution
+h=tanh(z*z*c*c);h=z*c*sin(h)+z*c*cos(h);z=exp(-h);
+    // Continue of the code
+    n=norm(z);dn1=abs(ln-n);
+    if (n>4*norm(c)){  // Divergent
+      conv=false;
+      c=z;//cout<< a <<"D";
+      return a;
+    }
+     if (dn1<1e-6) break;
+    ln=n;// if (sqrt(maxNumIt)*dn1<dn2) break; dn2=dn1;
+  }
+  conv=true;
+  c=z;//cout<< a <<" ";
+  return a;
+}
+}

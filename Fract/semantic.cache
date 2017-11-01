@@ -1,0 +1,16 @@
+;; Object semantic.cache
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "semantic.cache"
+  :tables (list 
+   (semanticdb-table "Fract.cpp"
+    :major-mode 'c++-mode
+    :tags '(("_Prec" variable (const t :default-value (nil)) nil [37 54]) ("width" variable (:default-value "1280" :type "int") nil [56 71]) ("height" variable (:default-value "1024" :type "int") nil [72 88]) ("T" variable (const t :default-value (nil)) nil [90 131]) ("SaveTGA" function (prototype t :arguments (("S" variable (pointer 1 :type "char") (reparse-symbol arg-sub-list) [146 154]) ("W" variable (:type "int") (reparse-symbol arg-sub-list) [154 160]) ("H" variable (:type "int") (reparse-symbol arg-sub-list) [160 166]) ("Name" variable (pointer 1 :type "char") (reparse-symbol arg-sub-list) [166 177])) :type ("bool" type (:type "class") nil nil)) nil [133 178]) ("Konv" function (prototype t :arguments (("r" variable (:type "double") (reparse-symbol arg-sub-list) [191 200]) ("i" variable (:type "double") (reparse-symbol arg-sub-list) [201 210])) :type "double") nil [179 211]) ("main" function (:arguments (("argc" variable (:type "int") (reparse-symbol arg-sub-list) [222 231]) ("argv" variable (pointer 1 dereference 1 :type "char") (reparse-symbol arg-sub-list) [232 245])) :type "int") nil [213 1303]) ("SaveTGA" function (:arguments (("S" variable (pointer 1 :type "char") (reparse-symbol arg-sub-list) [1318 1326]) ("W" variable (:type "int") (reparse-symbol arg-sub-list) [1326 1332]) ("H" variable (:type "int") (reparse-symbol arg-sub-list) [1332 1338]) ("Name" variable (pointer 1 :type "char") (reparse-symbol arg-sub-list) [1338 1349])) :type ("bool" type (:type "class") nil nil)) nil [1305 1776]) ("Konv" function (:arguments (("r" variable (:type "double") (reparse-symbol arg-sub-list) [1790 1799]) ("i" variable (:type "double") (reparse-symbol arg-sub-list) [1800 1809])) :type "double") nil [1778 2041]))
+    :file "Fract.cpp"
+    :pointmax 2042
+    :unmatched-syntax '((punctuation 34 . 35) (symbol 33 . 34) (punctuation 32 . 33) (symbol 28 . 32) (punctuation 27 . 28) (INCLUDE 20 . 27) (punctuation 19 . 20) (punctuation 17 . 18) (symbol 16 . 17) (punctuation 15 . 16) (symbol 10 . 15) (punctuation 9 . 10) (INCLUDE 2 . 9) (punctuation 1 . 2))
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0beta1"
+  :semanticdb-version "2.0beta1"
+  )

@@ -1,0 +1,13 @@
+qmake -project                          - Create *.pro  - project file, it misses some necessary stuff for QT5, see backup.pro
+qmake                                   - Create Makefile
+
+add -ldl parametr to the LIBS variable; add -fopenmp for parallelization; change optimatization to -O3
+
+make                                    - Compile QT program
+
+
+export OMP_NUM_THREADS=4
+./qtProg
+
+
+readelf -d qtFract                      - shows dynamic libraries

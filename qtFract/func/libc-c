@@ -1,0 +1,27 @@
+#include<complex>
+
+using namespace std;
+
+#define hsin(a) (0.5*(1.0+sin(a)))
+#define hcos(a) (0.5*(1.0+cos(a)))
+
+extern "C" {  // use name without _
+char Rc(complex<double> &p,complex<double> &r,int it,double zm){
+ return char(0+220*hsin(log(abs(r*r+p)*it)));
+}
+char Gc(complex<double> &p,complex<double> &r,int it,double zm){
+ return char(0+190*hsin(log(abs(r*r+p)*it)));
+}
+char Bc(complex<double> &p,complex<double> &r,int it,double zm){
+ return char(0+90*hsin(log(abs(r*r+p)*it)));
+}
+char Rd(complex<double> &p,complex<double> &r,double zm){
+ return char((70+180*(hsin(log(abs(p*p/(r*r)))))));
+}
+char Gd(complex<double> &p,complex<double> &r,double zm){
+ return char((60+180*(hsin(log(abs(p*p/(r*r)))))));
+}
+char Bd(complex<double> &p,complex<double> &r,double zm){
+ return char((80+175*(hsin(log(abs(p*p/(r*r)))))));
+}
+}
