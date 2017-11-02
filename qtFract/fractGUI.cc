@@ -648,7 +648,7 @@ void FractGUI::setStatus()
 {
   char stMes[256];
   
-  sprintf(stMes,"scale: %e x,y,aplha: %e %e %5.1f;  zoom magnitude: %3.1f; resolution, W: %d, H: %d; Precision: %d",zw,xw,yw,alp,zoomMag,par->width(),par->height(),par->prec());
+  sprintf(stMes,"scale: %e x,y,aplha: %e %e %5.1f;  zoom magnitude: %3.1f; resolution, W: %d, H: %d; Precision: %d",zw,xw,yw,alp/deg2rad,zoomMag,par->width(),par->height(),par->prec());
   
   status->setText(stMes);
 
@@ -799,7 +799,7 @@ void FractGUI::drawNewFract()
 {
   status->setText("Calculating...");
   repaint();
-  Fract->calcFract(xw,yw,zw,alp*deg2rad);
+  Fract->calcFract(xw,yw,zw,alp);
   if (!Fract->saveImage("temp")){
       qDebug()<<"Saving TGA fail.\n";
       qApp->exit();
@@ -851,7 +851,7 @@ double customZoom::getZoom()
   bool isOk;
   double val;
   
-  val = textEdit->text().toDouble(&isOk);
+  val = textEdit->text().replace(",", ".").toDouble(&isOk);
   
   if (isOk) return val;
   else{
@@ -1411,35 +1411,34 @@ angle::angle(double alp, QWidget *parent) : QDialog(parent)
 void angle::setAngl(int alp)
 {
   char num[24];
-  sprintf(num,"%4d",alp);
+  sprintf(num,"%d",alp);
   textEdit->setText(QString::fromLocal8Bit(num));
 }
 
 void angle::setAngle(double alp)
 {
   char num[24];
-  sprintf(num,"%4d",int(alp));
+  sprintf(num,"%4d",int(alp/deg2rad));
   textEdit->setText(QString::fromLocal8Bit(num));
-  slider->setValue( int(alp) );
+  slider->setValue( int(alp/deg2rad) );
 }
 
 double angle::getAngl()
 {
   bool isOk;
-  int val;
+  double val;
   
-  val = textEdit->text().toInt(&isOk);
+  val = textEdit->text().replace(',','.').toDouble(&isOk);
   
   if (isOk){
     if (val<0) val=0;
     if (val>360) val=360;
-    setAngle(val);
-    return val;
   }else{
     val = 0;
-    setAngle(val);
-    return val;
   }
+  val=val*deg2rad;
+  setAngle(val);
+  return val;
 }
 
 // Dialog Window -- set Slide Show Points Settings
@@ -1570,7 +1569,7 @@ void videoPoints::insertRow(int row)
   table->setItem(i,2,item);
   item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
 
-  sprintf(str,"%5.1f",al);
+  sprintf(str,"%5.1f",al/deg2rad);
   item = new QTableWidgetItem(str);
   table->setItem(i,3,item);
   item->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled|Qt::ItemIsEditable);
@@ -1603,7 +1602,7 @@ void videoPoints::insertRow(int row)
   table->setCellWidget(i,7,cBox);
   cBox->setCurrentIndex(index);
   
-  if (i>0) sp = table->item(i-1,8)->text().toDouble(&isOk);
+  if (i>0) sp = table->item(i-1,8)->text().replace(",", ".").toDouble(&isOk);
   else sp = 0.1;
   if (!isOk) sp = 0.9;
   else{
@@ -1620,7 +1619,7 @@ void videoPoints::insertRow(int row)
   zp.y=y;
   zp.al=al*deg2rad;
   zp.zm=zm;
-  zp.sp=table->item(i,8)->text().toDouble(&isOk);
+  zp.sp=table->item(i,8)->text().replace(",", ".").toDouble(&isOk);
   zp.mx=static_cast<QComboBox*>(table->cellWidget(i,4))->currentIndex();
   zp.my=static_cast<QComboBox*>(table->cellWidget(i,5))->currentIndex();
   zp.ma=static_cast<QComboBox*>(table->cellWidget(i,6))->currentIndex();
@@ -1641,7 +1640,7 @@ void videoPoints::okClick()
   acceptChanges();
   
   // move list from temporary (working) list to final one
-  mainWin->Fract->points=points;
+  //mainWin->Fract->points=points;
   accept();
 }
 
@@ -1666,13 +1665,13 @@ void videoPoints::acceptChanges()
   int i;
   // apply all changes
   for(it=points.begin(),i=0;it!=points.end();it++,i++){
-    it->al=table->item(i,3)->text().toDouble(&isOk);
+    it->al=table->item(i,3)->text().replace(",", ".").toDouble(&isOk);
     if (isOk){
         if (it->al<0 || it->al>360) it->al-=360.0*((it->al<0?-1.0:0.0)+int(it->al/360));
         it->al*=deg2rad;
     }else  it->al = 0;
       
-    it->sp=table->item(i,8)->text().toDouble(&isOk);
+    it->sp=table->item(i,8)->text().replace(",", ".").toDouble(&isOk);
     if (!isOk) it->sp = 0.9;
     else{
       if (it->sp<0.0) it->sp = 0.0;
@@ -1704,11 +1703,11 @@ void videoPoints::randomizeMoves()
   double al,sp;
   char str[128];
   
-  al=table->item(table->rowCount()-1,3)->text().toDouble(&isOk);
-  sp=table->item(table->rowCount()-1,8)->text().toDouble(&isOk);
+  al=table->item(table->rowCount()-1,3)->text().replace(",", ".").toDouble(&isOk);
+  sp=table->item(table->rowCount()-1,8)->text().replace(",", ".").toDouble(&isOk);
   for(int i=table->rowCount()-1;i>=1;i--){
-    if (table->item(i-1,0)->text().toDouble(&isOk) >
-        table->item(i,0)->text().toDouble(&isOk) ){
+    if (table->item(i-1,0)->text().replace(",", ".").toDouble(&isOk) >
+        table->item(i,0)->text().replace(",", ".").toDouble(&isOk) ){
       static_cast<QComboBox*>(table->cellWidget(i,4))->setCurrentIndex(zinxy[rand()%6]);
       static_cast<QComboBox*>(table->cellWidget(i,5))->setCurrentIndex(zinxy[rand()%6]);
       static_cast<QComboBox*>(table->cellWidget(i,6))->setCurrentIndex(zina[rand()%9]);
