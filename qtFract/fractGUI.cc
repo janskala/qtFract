@@ -1694,28 +1694,40 @@ double videoPoints::Rnd()
 void videoPoints::randomizeMoves()
 {
   bool isOk;
-  int zinxy[6]={0,4,5,6,7,7};
-  int zina[9]={0,1,2,3,4,5,6,7,7};
-  int zinz[5]={1,2,3,7,7};
-  int zoutz[5]={4,5,6,7,7};
-  int zoutxy[6]={0,1,2,3,7,7};
-  double al,sp;
+  int zinxy[6]={0,4,5,5,7,7};
+  int zina[9]={0,1,2,0,4,5,0,7,7};
+  int zinz[5]={1,2,2,7,7};
+  int zoutz[5]={4,5,5,7,7};
+  int zoutxy[6]={0,1,2,2,7,7};
+  double al,sp,z1,z2;
   char str[128];
   
   al=table->item(table->rowCount()-1,3)->text().replace(",", ".").toDouble(&isOk);
   sp=table->item(table->rowCount()-1,8)->text().replace(",", ".").toDouble(&isOk);
   for(int i=table->rowCount()-1;i>=1;i--){
-    if (table->item(i-1,0)->text().replace(",", ".").toDouble(&isOk) > 
-        table->item(i,0)->text().replace(",", ".").toDouble(&isOk) ){
-      static_cast<QComboBox*>(table->cellWidget(i,4))->setCurrentIndex(zinxy[rand()%6]);
-      static_cast<QComboBox*>(table->cellWidget(i,5))->setCurrentIndex(zinxy[rand()%6]);
+    if ( (z1=table->item(i-1,0)->text().replace(",", ".").toDouble(&isOk)) > 
+        (z2=table->item(i,0)->text().replace(",", ".").toDouble(&isOk)) ){
+      if (z1/z2>1e3){
+        static_cast<QComboBox*>(table->cellWidget(i,4))->setCurrentIndex(6);
+        static_cast<QComboBox*>(table->cellWidget(i,5))->setCurrentIndex(6);
+        static_cast<QComboBox*>(table->cellWidget(i,7))->setCurrentIndex(3);
+      }else{
+        static_cast<QComboBox*>(table->cellWidget(i,4))->setCurrentIndex(zinxy[rand()%6]);
+        static_cast<QComboBox*>(table->cellWidget(i,5))->setCurrentIndex(zinxy[rand()%6]);
+        static_cast<QComboBox*>(table->cellWidget(i,7))->setCurrentIndex(zinz[rand()%5]);
+      }
       static_cast<QComboBox*>(table->cellWidget(i,6))->setCurrentIndex(zina[rand()%9]);
-      static_cast<QComboBox*>(table->cellWidget(i,7))->setCurrentIndex(zinz[rand()%5]);
     }else{
-      static_cast<QComboBox*>(table->cellWidget(i,4))->setCurrentIndex(zoutxy[rand()%6]);
-      static_cast<QComboBox*>(table->cellWidget(i,5))->setCurrentIndex(zoutxy[rand()%6]);
+      if (z1/z2<1e-3){
+        static_cast<QComboBox*>(table->cellWidget(i,4))->setCurrentIndex(3);
+        static_cast<QComboBox*>(table->cellWidget(i,5))->setCurrentIndex(3);
+        static_cast<QComboBox*>(table->cellWidget(i,7))->setCurrentIndex(6);
+      }else{
+        static_cast<QComboBox*>(table->cellWidget(i,4))->setCurrentIndex(zoutxy[rand()%6]);
+        static_cast<QComboBox*>(table->cellWidget(i,5))->setCurrentIndex(zoutxy[rand()%6]);
+        static_cast<QComboBox*>(table->cellWidget(i,7))->setCurrentIndex(zoutz[rand()%5]);
+      }
       static_cast<QComboBox*>(table->cellWidget(i,6))->setCurrentIndex(zina[rand()%9]);
-      static_cast<QComboBox*>(table->cellWidget(i,7))->setCurrentIndex(zoutz[rand()%5]);
     }
     
     al+=(Rnd()-0.5)*180;
@@ -1771,7 +1783,7 @@ void videoPoints::makeTable()
   // remove all rows from table
   clearTable();
   
-  oList<<"x^1"<<"x^2"<<"x^4"<<"cos"<<"ix^2"<<"ix^4"<<"sin"<<"tanh";
+  oList<<"x^1"<<"x^2"<<"x^4"<<"x^16"<<"ix^2"<<"ix^4"<<"ix^16"<<"tanh";
   
   // copy data from Factal list to table
   points=mainWin->Fract->points;
