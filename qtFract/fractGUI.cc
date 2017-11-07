@@ -1549,7 +1549,7 @@ void videoPoints::insertRow(int row)
   zoomPoint zp;
   list<zoomPoint>::iterator it;
   
-  oList<<"x^1"<<"x^2"<<"x^4"<<"cos"<<"ix^2"<<"ix^4"<<"sin"<<"tanh";
+  oList<<"x^1"<<"x^2"<<"x^4"<<"x^16"<<"ix^2"<<"ix^4"<<"ix^16"<<"tanh";
   mainWin->getWinAtrs(&x,&y,&al,&zm);
   table->insertRow(row);
   i=row;
@@ -1705,7 +1705,7 @@ void videoPoints::randomizeMoves()
   al=table->item(table->rowCount()-1,3)->text().replace(",", ".").toDouble(&isOk);
   sp=table->item(table->rowCount()-1,8)->text().replace(",", ".").toDouble(&isOk);
   for(int i=table->rowCount()-1;i>=1;i--){
-    if (table->item(i-1,0)->text().replace(",", ".").toDouble(&isOk) >
+    if (table->item(i-1,0)->text().replace(",", ".").toDouble(&isOk) > 
         table->item(i,0)->text().replace(",", ".").toDouble(&isOk) ){
       static_cast<QComboBox*>(table->cellWidget(i,4))->setCurrentIndex(zinxy[rand()%6]);
       static_cast<QComboBox*>(table->cellWidget(i,5))->setCurrentIndex(zinxy[rand()%6]);

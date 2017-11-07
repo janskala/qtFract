@@ -36,10 +36,10 @@ Tfractal::Tfractal(const int w,const int h, const int maxIt):
   pFce[0]=&Tfractal::x1;
   pFce[1]=&Tfractal::x2;
   pFce[2]=&Tfractal::x4;
-  pFce[3]=&Tfractal::cosx;
+  pFce[3]=&Tfractal::x16;
   pFce[4]=&Tfractal::ix2;
   pFce[5]=&Tfractal::ix4;
-  pFce[6]=&Tfractal::sinx;
+  pFce[6]=&Tfractal::ix16;
   pFce[7]=&Tfractal::tanhx;
 }
 
@@ -459,9 +459,12 @@ double Tfractal::x4(double x)
   return x*x*x*x;
 }
 
-double Tfractal::sinx(double x)
+double Tfractal::x16(double x)
 {
-  return sin(x*PI_2);
+  x=x*x;
+  x=x*x;
+  x=x*x;
+  return x*x;
 }
 
 double Tfractal::ix2(double x)
@@ -475,9 +478,13 @@ double Tfractal::ix4(double x)
   return 1.0-a*a*a*a;
 }
 
-double Tfractal::cosx(double x)
+double Tfractal::ix16(double x)
 {
-  return 1.0-cos(x*PI_2);
+  double a=(1.0-x);
+  a=a*a;
+  a=a*a;
+  a=a*a;
+  return 1.0-a*a;
 }
 
 double Tfractal::tanhx(double x)

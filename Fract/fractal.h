@@ -53,10 +53,10 @@ class Tfractal
    double x1(double x);
    double x2(double x);
    double x4(double x);
-   double sinx(double x);
+   double x16(double x);
    double ix2(double x);
    double ix4(double x);
-   double cosx(double x);
+   double ix16(double x);
    double tanhx(double x);
    void setDl();
    
