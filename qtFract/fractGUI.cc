@@ -1694,12 +1694,11 @@ double videoPoints::Rnd()
 void videoPoints::randomizeMoves()
 {
   bool isOk;
-  int zinxy[6]={0,1,2,3,7,7};
+  int zinxy[6]={0,4,5,6,7,7};
   int zina[9]={0,1,2,3,4,5,6,7,7};
-  int zinz[5]={4,5,6,7,7}; // 5
-  int zoutxy[6]={0,4,5,6,7,7};
-  //int zouta={0,1,2,3,4,5,6,7,7};
-  int zoutz[5]={1,2,3,7,7};
+  int zinz[5]={1,2,3,7,7};
+  int zoutz[5]={4,5,6,7,7};
+  int zoutxy[6]={0,1,2,3,7,7};
   double al,sp;
   char str[128];
   
